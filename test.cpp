@@ -1,28 +1,26 @@
-#include <iostream>
-#include <map>
+bool tab(vector<int> arr, int target) {
+    int n = arr.size();
+    vector<vector<bool>> dp(n, vector<bool>(target + 1, false));
 
-int main() {
-    // Create a map with key-value pairs of type int and string
-    std::map<int, std::string> myMap;
+    // Initialize the dp table for base case
+    for (int i = 0; i < n; i++)
+        dp[i][0] = true;
 
-    // Add elements to the map
-    myMap[1] = "Apple";
-    myMap[2] = "Banana";
-    myMap[3] = "Orange";
+    // Check if first element is within the target range
+    if (arr[0] <= target)
+        dp[0][arr[0]] = true;
 
-    // Iterate over the map using an iterator
-    for (auto it = myMap.begin(); it != myMap.end(); it++) {
-        int key = it->first;
-        std::string value = it->second;
-        std::cout << "Key: " << key << ", Value: " << value << std::endl;
+    for (int i = 1; i < n; i++) {
+        for (int j = 1; j <= target; j++) {
+            bool notTaken = dp[i - 1][j];
+
+            bool taken = false;
+            if (arr[i] <= j)
+                taken = dp[i - 1][j - arr[i]];
+
+            dp[i][j] = taken || notTaken;
+        }
     }
 
-    auto it = myMap.begin();
-    auto next = ++it;
-    --it;
-    std::cout<<it->first;
-    std::cout<<next->first;
-
-
-    return 0;
+    return dp[n - 1][target];
 }
