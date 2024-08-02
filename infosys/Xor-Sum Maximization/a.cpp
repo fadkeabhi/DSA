@@ -9,9 +9,9 @@ int maximizeXorSum(int N, int K, std::vector<int>& A) {
     // Your code here
     // brute force approach
     int ans = 0;
-    for(int i=0; i<N; i++){
+    for(int x=0; x<=K; x++){
         int temp = 0;
-        for(int x=0; x<=K; x++){
+        for(int i=0; i<N; i++){
             temp += x ^ A[i];
         }
         ans = max(ans, temp);
