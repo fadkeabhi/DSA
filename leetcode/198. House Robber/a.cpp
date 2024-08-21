@@ -4,17 +4,19 @@ using namespace std;
 
 class Solution {
 public:
-    int f(vector<int>& nums, int n){
+    int f(vector<int>& nums, int n, vector<int>& dp){
         if (n == 0) return nums[0];
+        if(dp[n] != -1) return dp[n];
         if(n == 1) return max(nums[0] , nums[1]);
-        int rob = nums[n] + f(nums, n-2);
-        int notrob = f(nums, n-1);
-        return max(rob, notrob);
+        int rob = nums[n] + f(nums, n-2,dp);
+        int notrob = f(nums, n-1, dp);
+        return dp[n] = max(rob, notrob);
     }
 
     int rob(vector<int>& nums) {
+        vector<int> dp(nums.size(), -1);
         int n =  nums.size();
-        return f(nums, n -1 );
+        return f(nums, n -1, dp);
     }
 };
 
